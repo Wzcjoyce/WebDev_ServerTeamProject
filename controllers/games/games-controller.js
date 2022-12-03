@@ -1,4 +1,5 @@
 import * as gamesDao from "./games-dao.js";
+import mongoose from "mongoose";
 
 
 export default (app) => {
@@ -7,6 +8,7 @@ export default (app) => {
     app.put('/api/games/:gid', updateGame);
     app.delete('/api/games/:gid', deleteGame);
 }
+
 const findGames = async (req, res) => {
     const games = await gamesDao.findGames()
     res.json(games);
@@ -15,8 +17,15 @@ const findGames = async (req, res) => {
 
 const createGame =  async  (req, res) => {
     const newGames = req.body;
-    const insertGame = await gamesDao.createGame(newGames)
-    res.json(insertGame);
+    const count = await gamesDao.IsGameExist(newGames.RawgId).count();
+    if(count === 0)
+    {
+        const insertGame = await gamesDao.createGame(newGames)
+        res.json(insertGame);
+    }
+    else {
+        res.json("Game Already Existed")
+    }
 }
 
 const deleteGame = async (req, res) => {

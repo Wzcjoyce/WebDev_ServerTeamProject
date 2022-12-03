@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
 const schema = mongoose.Schema({
     GameName : String,
+    RawgId: Number,
     Description: String,
-    Platforms: String,
-    GameType: String,
     Metacritic: Number,
     ReleaseDate: String,
     Image: String,
