@@ -1,10 +1,12 @@
 import * as gamesDao from "./games-dao.js";
 import mongoose from "mongoose";
+import {findGameByRawgId} from "./games-dao.js";
 
 
 export default (app) => {
     app.post('/api/games', createGame);
     app.get('/api/games', findGames);
+    app.get('/api/games/:RawgId', findGameById);
     app.put('/api/games/:gid', updateGame);
     app.delete('/api/games/:gid', deleteGame);
 }
@@ -12,6 +14,11 @@ export default (app) => {
 const findGames = async (req, res) => {
     const games = await gamesDao.findGames()
     res.json(games);
+}
+
+const findGameById = async (req, res) => {
+    const game = await gamesDao.findGameByRawgId(req.params.RawgId)
+    res.json(game);
 }
 
 
