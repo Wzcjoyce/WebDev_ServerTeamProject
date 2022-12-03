@@ -6,6 +6,10 @@ const schema = mongoose.Schema({
     Metacritic: Number,
     ReleaseDate: String,
     Image: String,
+    Website: String,
+    Platforms: [],
+    Genres : [],
+    Developers : []
 
 }, {collection: 'games'});
 export default schema;
