@@ -18,7 +18,7 @@ const findGames = async (req, res) => {
 
 const findGameById = async (req, res) => {
     const game = await gamesDao.findGameByRawgId(req.params.RawgId)
-    res.json(game);
+    res.json(game[0]);
 }
 
 
