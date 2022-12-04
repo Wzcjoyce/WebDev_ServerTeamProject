@@ -1,12 +1,15 @@
 import mongoose from 'mongoose';
 const schema = mongoose.Schema({
-    username : String,
+    gameName: String,
+    userName : String,
+    userId: Number,
     content: String,
-    gameID: String,
-    reviewScore: Number,
+    RawgId: Number,
+    score: Number,
     time: String,
-    userImage: String,
-    gameImage: String
+    avatar: String,
+    recommended: Boolean,
+    playhours: String
 
 }, {collection: 'reviews'});
 export default schema;
