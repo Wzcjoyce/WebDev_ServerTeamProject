@@ -1,12 +1,14 @@
 import express from 'express'
 import HelloController from "./controllers/hello-controller.js"
-import UserController from "./controllers/users/users-controller.js"
+import UsersController from "./controllers/users/users-controller.js"
 import TuitsController from "./controllers/tuits/tuits-controller.js";
+import LikesController from "./controllers/likes/likes-controller.js";
 import AuthenticationController from "./controllers/users/auth-controller.js";
 import cors from 'cors'
 import session from 'express-session'
 import dotenv from 'dotenv'
 import mongoose from "mongoose";
+
 
 dotenv.config();
 
@@ -52,7 +54,8 @@ app.use(session(sess))
 app.use(express.json());
 
 TuitsController(app);
-HelloController(app)
-UserController(app)
+HelloController(app);
+UsersController(app);
+LikesController(app);
 AuthenticationController(app);
 app.listen(process.env.PORT || 4000);
