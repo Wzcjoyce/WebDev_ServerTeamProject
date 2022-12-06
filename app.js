@@ -3,10 +3,16 @@ import HelloController from "./controllers/hello-controller.js"
 import UserController from "./controllers/users/users-controller.js"
 import TuitsController from "./controllers/tuits/tuits-controller.js";
 import AuthenticationController from "./controllers/users/auth-controller.js";
+
+import GamesController
+    from "./controllers/games/games-controller.js";
+import ReviewController
+    from "./controllers/reviews/reviews-controller.js";
 import cors from 'cors'
 import session from 'express-session'
 import dotenv from 'dotenv'
 import mongoose from "mongoose";
+
 
 dotenv.config();
 
@@ -51,6 +57,8 @@ if (process.env.NODE_ENV === 'production') {
 app.use(session(sess))
 app.use(express.json());
 
+GamesController(app);
+ReviewController(app);
 TuitsController(app);
 HelloController(app)
 UserController(app)
