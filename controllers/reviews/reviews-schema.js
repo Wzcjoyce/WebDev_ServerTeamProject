@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 const schema = mongoose.Schema({
-    gameName: String,
     userName : String,
-    userId: Number,
+    userId: String,
     content: String,
     RawgId: Number,
     GamePlayScore: Number,
