@@ -60,7 +60,7 @@ const AuthenticationController = (app) => {
         if (profile) {
             res.json(profile);
         } else {
-            res.sendStatus(403);
+            res.json({});
         }
     }
 
