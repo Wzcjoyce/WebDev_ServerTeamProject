@@ -1,5 +1,4 @@
 import reviewsModel from './reviews-model.js';
-import gamesModel from "../games/games-model.js";
 export const findReviews = () => reviewsModel.find();
 
 export const findReviesByUserId = (UserId) => reviewsModel.find({userId: UserId});
