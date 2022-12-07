@@ -1,7 +1,8 @@
 import express from 'express'
 import HelloController from "./controllers/hello-controller.js"
-import UserController from "./controllers/users/users-controller.js"
+import UsersController from "./controllers/users/users-controller.js"
 import TuitsController from "./controllers/tuits/tuits-controller.js";
+import LikesController from "./controllers/likes/likes-controller.js";
 import AuthenticationController from "./controllers/users/auth-controller.js";
 
 import GamesController
@@ -60,7 +61,8 @@ app.use(express.json());
 GamesController(app);
 ReviewController(app);
 TuitsController(app);
-HelloController(app)
-UserController(app)
+HelloController(app);
+UsersController(app);
+LikesController(app);
 AuthenticationController(app);
 app.listen(process.env.PORT || 4000);
