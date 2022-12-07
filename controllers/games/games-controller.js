@@ -1,6 +1,5 @@
-import * as gamesDao from "./games-dao.js";
+import * as gamesDao from "../../daos/games/games-dao.js";
 import mongoose from "mongoose";
-import {findGameByRawgId} from "./games-dao.js";
 
 
 export default (app) => {

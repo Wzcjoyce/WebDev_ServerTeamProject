@@ -1,4 +1,4 @@
-import * as reviewsDao from "./reviews-dao.js";
+import * as reviewsDao from "../../daos/reviews/reviews-dao.js";
 
 
 export default (app) => {
