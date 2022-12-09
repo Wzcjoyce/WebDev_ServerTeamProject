@@ -1,14 +1,12 @@
-import mongoose from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 const schema = mongoose.Schema({
-    userName : String,
-    userId: String,
+    postedBy: {type: Schema.Types.ObjectId, ref: "UserModel"},
     content: String,
     RawgId: Number,
     GamePlayScore: Number,
     LastingAppealScore: Number,
     GraphicScore: Number,
     time: String,
-    avatar: String,
     recommended: Boolean,
     playhours: String
 

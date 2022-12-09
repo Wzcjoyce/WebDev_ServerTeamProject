@@ -1,9 +1,10 @@
 import people from './users.js'
+import {findUserById} from "../../daos/users/users-dao.js";
 let users = people
 
 const UserController = (app) => {
     app.get('/api/users', findUsers);
-    app.get('/api/users/:uid', findUserById);
+    app.get('/api/users/:uid', findUserByUserId);
     app.post('/api/users', createUser);
     app.delete('/api/users/:uid', deleteUser);
     app.put('/api/users/:uid', updateUser);
@@ -21,10 +22,9 @@ const findUsers = (req, res) => {
     res.json(users)
 }
 
-const findUserById = (req, res) => {
+const findUserByUserId = async (req, res) => {
     const userId = req.params.uid;
-    const user = users
-        .find(u => u._id === userId);
+    const user = await findUserById(userId)
     res.json(user);
 }
 
