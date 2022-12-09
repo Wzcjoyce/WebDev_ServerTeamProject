@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-const schema = mongoose.Schema({
+const schema = new mongoose.Schema({
     GameName : String,
     RawgId: Number,
     Description: String,

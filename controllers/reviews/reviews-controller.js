@@ -1,5 +1,4 @@
 import * as reviewsDao from "../../daos/reviews/reviews-dao.js";
-import {findAllReviews, findReviewsByGameId} from "../../daos/reviews/reviews-dao.js";
 
 
 
@@ -7,8 +6,8 @@ export default (app) => {
     app.post('/api/reviews/:uid', createReview);
     app.get('/api/reviews', findReviews);
     app.get('/api/reviews/users/:uid', findAllReviewsPostedByUser);
-    app.get('/api/reviews/games', findAllGamesReviewedByUser);
-    app.get('/api/reviews/Rawg/:GameId', findReviewsByGame);
+    app.get('/api/reviews/games', findAllReviewedGames);
+    app.get('/api/reviews/Rawg/:gameId', findReviewsByGame);
     app.put('/api/reviews/:rid', updateReview);
     app.delete('/api/reviews/:rid', deleteReview);
 }
@@ -22,20 +21,21 @@ const findAllReviewsPostedByUser = async (req, res) => {
     res.json(reviews);
 }
 
-const findAllGamesReviewedByUser = async (req, res) => {
+const findAllReviewedGames = async (req, res) => {
 
-    const  reviews = await reviewsDao.findAllReviews()
-    const gamesId = reviews.map(review => review.RawgId._id)
-    const setOfGameId = new Set(gamesId)
+    const reviewsArr = await reviewsDao.findAllReviews();
+    const RawgIdArr = reviewsArr.map(review => review.GameComponent.RawgId)
+    const setOfGameId = new Set(RawgIdArr)
 
+    // console.log(reviews);
     let ReviewedGameArray = [];
     for(const id of setOfGameId)
     {
-        for(const review of reviews)
+        for(const review of reviewsArr)
         {
-            if(reviews.RawgId._id === id)
+            if(review.GameComponent.RawgId === id)
             {
-                ReviewedGameArray.push(reviews.RawgId)
+                ReviewedGameArray.push(review.GameComponent);
                 break;
             }
         }
@@ -46,7 +46,7 @@ const findAllGamesReviewedByUser = async (req, res) => {
 }
 
 const findReviewsByGame = async (req, res) => {
-    const reviews = await reviewsDao.findReviewsByGameId(req.params.GameId)
+    const reviews = await reviewsDao.findReviewsByGameId(req.params.gameId)
     res.json(reviews);
 }
 

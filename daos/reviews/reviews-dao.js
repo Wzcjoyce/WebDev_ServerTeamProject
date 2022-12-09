@@ -1,5 +1,4 @@
 import reviewsModel from './reviews-model.js';
-import TuitModel from "../tuits/tuits-model.js";
 export const findReviews = () => reviewsModel.find();
 
 export const findReviewsByUser = async (uid) =>
@@ -12,7 +11,7 @@ export const findAllReviews = async () =>
     reviewsModel
         .find()
         .lean()
-        .populate("gameId")
+        .populate("GameComponent")
         .exec();
 
 export const findReviewsByGameId = (gameId) => reviewsModel.find()
@@ -31,4 +30,4 @@ export const createReviewByUser = async (uid, Review) =>
 
 
 export const deleteReview = (rid) => reviewsModel.deleteOne({_id: rid});
-export const updateReview = (rid, game) => reviewsModel.updateOne({_id: rid}, {$set: review})
+export const updateReview = (rid) => reviewsModel.updateOne({_id: rid}, {$set: review})
