@@ -5,11 +5,25 @@ export const findReviews = () => reviewsModel.find();
 export const findReviewsByUser = async (uid) =>
     reviewsModel
         .find({postedBy: uid})
-        .lean()
         .populate("postedBy")
         .exec();
 
-export const findReviewsByRawgId = (RawgId) => reviewsModel.find({RawgId: RawgId});
+export const findAllReviews = async () =>
+    reviewsModel
+        .find()
+        .lean()
+        .populate("gameId")
+        .exec();
+
+export const findReviewsByGameId = (gameId) => reviewsModel.find()
+    .populate({
+            path: "GameComponent",
+            match: {'_id': {$eq: gameId}}
+
+        }
+    )
+    .populate('postedBy')
+    .exec();
 
 
 export const createReviewByUser = async (uid, Review) =>

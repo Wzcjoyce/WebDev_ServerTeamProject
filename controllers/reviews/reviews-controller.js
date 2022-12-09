@@ -1,4 +1,5 @@
 import * as reviewsDao from "../../daos/reviews/reviews-dao.js";
+import {findAllReviews, findReviewsByGameId} from "../../daos/reviews/reviews-dao.js";
 
 
 
@@ -6,7 +7,8 @@ export default (app) => {
     app.post('/api/reviews/:uid', createReview);
     app.get('/api/reviews', findReviews);
     app.get('/api/reviews/users/:uid', findAllReviewsPostedByUser);
-    app.get('/api/reviews/Rawg/:RawgId', findReviewsByRawgId);
+    app.get('/api/reviews/games', findAllGamesReviewedByUser);
+    app.get('/api/reviews/Rawg/:GameId', findReviewsByGame);
     app.put('/api/reviews/:rid', updateReview);
     app.delete('/api/reviews/:rid', deleteReview);
 }
@@ -20,8 +22,31 @@ const findAllReviewsPostedByUser = async (req, res) => {
     res.json(reviews);
 }
 
-const findReviewsByRawgId = async (req, res) => {
-    const reviews = await reviewsDao.findReviewsByRawgId(req.params.RawgId)
+const findAllGamesReviewedByUser = async (req, res) => {
+
+    const  reviews = await reviewsDao.findAllReviews()
+    const gamesId = reviews.map(review => review.RawgId._id)
+    const setOfGameId = new Set(gamesId)
+
+    let ReviewedGameArray = [];
+    for(const id of setOfGameId)
+    {
+        for(const review of reviews)
+        {
+            if(reviews.RawgId._id === id)
+            {
+                ReviewedGameArray.push(reviews.RawgId)
+                break;
+            }
+        }
+    }
+
+
+    res.json(ReviewedGameArray);
+}
+
+const findReviewsByGame = async (req, res) => {
+    const reviews = await reviewsDao.findReviewsByGameId(req.params.GameId)
     res.json(reviews);
 }
 
