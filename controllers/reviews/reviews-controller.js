@@ -1,4 +1,5 @@
 import * as reviewsDao from "../../daos/reviews/reviews-dao.js";
+import {findReviewsByRawgId} from "../../daos/reviews/reviews-dao.js";
 
 
 
@@ -7,7 +8,7 @@ export default (app) => {
     app.get('/api/reviews', findReviews);
     app.get('/api/reviews/users/:uid', findAllReviewsPostedByUser);
     app.get('/api/reviews/games', findAllReviewedGames);
-    app.get('/api/reviews/Rawg/:gameId', findReviewsByGame);
+    app.get('/api/reviews/Rawg/:RawgId', findReviewsByRawg);
     app.put('/api/reviews/:rid', updateReview);
     app.delete('/api/reviews/:rid', deleteReview);
 }
@@ -45,8 +46,8 @@ const findAllReviewedGames = async (req, res) => {
     res.json(ReviewedGameArray);
 }
 
-const findReviewsByGame = async (req, res) => {
-    const reviews = await reviewsDao.findReviewsByGameId(req.params.gameId)
+const findReviewsByRawg = async (req, res) => {
+    const reviews = await reviewsDao.findReviewsByRawgId(req.params.RawgId)
     res.json(reviews);
 }
 
