@@ -1,5 +1,5 @@
 import people from './users.js'
-import {findUserById} from "../../daos/users/users-dao.js";
+import {findUserById, updateUser as updateProfile} from "../../daos/users/users-dao.js";
 let users = people
 
 const UserController = (app) => {
@@ -23,9 +23,13 @@ const findUsers = (req, res) => {
 }
 
 const findUserByUserId = async (req, res) => {
-    const userId = req.params.uid;
-    const user = await findUserById(userId)
-    res.json(user);
+    try {
+        const userId = req.params.uid;
+        const user = await findUserById(userId)
+        res.json(user);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
 }
 
 const createUser = (req, res) => {
@@ -43,14 +47,10 @@ const deleteUser = (req, res) => {
 }
 
 
-const updateUser = (req, res) => {
+const updateUser = async (req, res) => {
     const userId = req.params['uid'];
     const updates = req.body;
-    users = users.map((usr) =>
-        usr._id === userId ?
-            {...usr, ...updates} :
-            usr
-    );
+    await updateProfile(userId, updates)
     res.sendStatus(200);
 }
 

@@ -25,7 +25,7 @@ export const findAllContacts = async (uid) =>
 export const findUserById = async (uid) =>
     UserModel
         .findById(uid)
-        .exec();
+
 
 /**
  * Uses UserModel to retrieve single user document from users collection

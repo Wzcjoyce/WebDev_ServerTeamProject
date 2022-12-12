@@ -5,7 +5,8 @@ export const findReviewsByUser = async (uid) =>
     reviewsModel
         .find({postedBy: uid})
         .populate("postedBy")
-        .exec();
+      .populate('GameComponent')
+      .exec();
 
 export const findAllReviews = async () =>
     reviewsModel
