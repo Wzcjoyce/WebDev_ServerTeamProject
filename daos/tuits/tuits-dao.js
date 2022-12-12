@@ -6,6 +6,7 @@ import TuitModel from './tuits-model.js';
 export const findAllTuits = async () =>
     // use lean to return plain objects(for modification) instead of mongoose documents
     TuitModel.find()
+        .sort({postedOn: -1})
         .lean()
         .populate("postedBy")
         .exec();
@@ -30,6 +31,7 @@ export const findTuitById = async (tid) =>
 export const findTuitsByUser = async (uid) =>
     TuitModel
         .find({postedBy: uid})
+        .sort({postedOn: -1})
         .lean() //use lean() tells Mongoose to skip instantiating a full Mongoose document and just
                 // give you the plain object
         .populate("postedBy")
