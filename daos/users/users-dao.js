@@ -7,16 +7,10 @@ import UserModel from "./users-model.js";
 /**
  * Retrieve all user documents from users collection
  */
-export const findAllUsers = async () => UserModel.find().exec();
+export const findAllUsersWithoutMe = async (uid) =>
+    UserModel.find({_id: {$ne: uid}})
+        .exec();
 
-export const findAllContacts = async (uid) =>
-    UserModel
-        .find({_id: {$ne: uid}})
-        .select([
-                    "_id",
-                    "username",
-                    "email",
-                ]).exec();
 /**
  * Retrieve single user document from users collection
  * @param {string} uid User's primary key
@@ -25,7 +19,6 @@ export const findAllContacts = async (uid) =>
 export const findUserById = async (uid) =>
     UserModel
         .findById(uid)
-
 
 /**
  * Uses UserModel to retrieve single user document from users collection
