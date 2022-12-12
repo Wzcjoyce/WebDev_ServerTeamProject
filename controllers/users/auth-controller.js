@@ -54,14 +54,20 @@ const AuthenticationController = (app) => {
     }
 
     //return the content of profile property in session
-    const profile = (req, res) => {
+    const profile = async (req, res) => {
         // @ts-ignore
-        const profile = req.session['profile'];
-        if (profile) {
-            res.json(profile);
-        } else {
-            res.json({});
-        }
+       try {
+           const profile = req.session['profile'];
+
+           const userData = await userDao.findUserById(profile._id);
+           if (userData) {
+               res.json(userData);
+           } else {
+               res.json({});
+           }
+       } catch (err) {
+           res.json({});
+       }
     }
 
     //user logout, destroy session and release server-side memory
