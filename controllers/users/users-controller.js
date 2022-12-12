@@ -26,7 +26,6 @@ const findUserByUserId = async (req, res) => {
 const updateUser = async (req, res) => {
     const userId = req.params['uid'];
     const updates = req.body;
-    console.log(updates);
     await userDao.updateUser(userId, updates);
     res.sendStatus(200);
 }
