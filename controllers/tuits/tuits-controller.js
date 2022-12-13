@@ -6,7 +6,7 @@ export default (app) => {
     //define HTTP request address
     app.get("/api/tuits", findAllTuits);
     app.get("/api/tuits/:tid", findTuitById);
-    app.get("/api/users/:uid/tuits", findTuitsByUser);
+    app.get("/api/users/reviewer/:reviewerId/poster/:posterId/tuits", findTuitsByUser);
     app.post("/api/users/:uid/tuits", createTuitByUser);
     app.put("/api/tuits/:tid", updateTuit);
     app.delete("/api/tuits/:tid", deleteTuit);
@@ -42,19 +42,11 @@ const findAllTuits = async (req, res) => {
  * body formatted as JSON arrays containing the tuit objects
  */
 const findTuitsByUser = async (req, res) => {
-    // @ts-ignore
-    const userId = req.params.uid === "my" && req.session['profile'] ?
-        // @ts-ignore
-                 req.session['profile']._id : req.params.uid;
-    // avoid server crash
-    if (userId === "my") {
-        res.sendStatus(503);
-        return;
-    }
-
-    const tuits = await TuitDao.findTuitsByUser(userId)
+    const reviewerId = req.params.reviewerId;
+    const posterId = req.params.posterId;
+    const tuits = await TuitDao.findTuitsByUser(posterId);
     //update isLiked/isDisliked/isBookmarked property
-    await addProperty(tuits, userId);
+    await addProperty(tuits, reviewerId);
     res.json(tuits);
 }
 

@@ -2,7 +2,7 @@ import * as LikeDao from "../../daos/likes/likes-dao.js";
 import * as TuitDao from "../../daos/tuits/tuits-dao.js";
 
 export default (app) => {
-    app.get("/api/users/:uid/likes", findAllTuitsLikedByUser);
+    app.get("/api/users/reviewer/:reviewerId/owner/:ownerId/likes", findAllTuitsLikedByUser);
     app.get("/api/likes/tuits/:tid", findAllUsersThatLikedTuit);
     app.get("/api/users/:uid/likes/:tid", findIfUserLikesTuit);
     app.put("/api/users/:uid/likes/:tid", userTogglesTuitLikes);
@@ -27,23 +27,16 @@ const findAllUsersThatLikedTuit = (req, res) =>
  * body formatted as JSON arrays containing the tuit objects that were liked
  */
 const findAllTuitsLikedByUser = (req, res) => {
-    const uid = req.params.uid;
-    const profile = req.session['profile'];
-    const userId = uid === "me" && profile ?
-                   profile._id : uid;
-    // avoid server crash
-    if (userId === "me") {
-        res.sendStatus(503);
-        return;
-    }
-    LikeDao.findAllTuitsLikedByUser(userId)
+    const reviewerId = req.params.reviewerId;
+    const ownerId = req.params.ownerId;
+    LikeDao.findAllTuitsLikedByUser(ownerId)
         .then(async likes => {
             // filter out likes with null tuit
             const likesNonNullTuits = likes.filter(like => like.tuit);
             // extract tuit objects and assign them to elements in the new array
             const tuitsFromLikes = likesNonNullTuits.map(like => like.tuit);
             //update isLiked properties
-            await addProperty(tuitsFromLikes, userId)
+            await addProperty(tuitsFromLikes, reviewerId)
             res.json(tuitsFromLikes);
         });
 }
